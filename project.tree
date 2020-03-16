@@ -1,0 +1,48 @@
+# Wireguard config manager
+
+This is distributed as a git repository
+Run gen-wg0.sh to get the wg0.conf to put in /etc/wireguard/ for your host
+
+
+File tree {
+    
+    .gitignore {
+        me.private
+        me.public
+    }
+    
+    confs/
+        kvm.conf
+        t440s.conf
+    
+    gen-wg0.sh
+    
+    keys/
+        kvm.public
+        t440s.public
+    
+    me
+    me.public -> keys/t440s.public
+    me.private
+    
+}
+
+
+gen-wg0.sh {
+    
+    Ensure $1
+    Check me and me.*
+    
+    Ensure confs/$me.conf
+    
+    for k in keys/*; do
+        host=$(host $k)
+        s/$public($host)/$(cat $k)/
+    done
+    
+    s/$private($me)/$(cat me.private)/
+    
+    grep -q \$ && uh oh
+    
+}
+
