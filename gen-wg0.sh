@@ -38,7 +38,7 @@ fi
 # check that all the state matches
 
 # ./me is a small safeguard
-if [ -e me ] && [ "$me" != "$(cat me)" ]; then
+if [ -e me ] && [ "$me" != "$(cat me || true)" ]; then
     err "./me exists and doesn't match $me." \
         "${NL}Please delete the me* files if you are changing the name" \
         "or configuring a different host." \
