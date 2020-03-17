@@ -8,6 +8,7 @@ set -o pipefail
 reset="$(tput sgr0)"
 red="$(tput setaf 1)"
 blue="$(tput setaf 6)"
+NL=$'\n' # newline
 
 # error & exit
 err() { echo "${red}ERROR: $@${reset}" >&2; exit 1; }
@@ -15,7 +16,6 @@ err() { echo "${red}ERROR: $@${reset}" >&2; exit 1; }
 # log to stderr, stdout is reserved for the config output
 log() { echo "${blue}$@${reset}" >&2; }
 
-NL=$'\n' # newline
 
 
 
@@ -199,7 +199,9 @@ fi
 
 
 # good job everyone
-echo "$config"
-
+log
 log "OK."
+echo "$config"
+echo
+
 
