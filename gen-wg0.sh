@@ -30,9 +30,7 @@ fi
 
 
 # don't bother with unconfigured hosts
-c="confs/$me.conf"
-
-if [ ! -e "$c" ]; then
+if [ ! -e "confs/$me.conf" ]; then
     err "No config for $me."
 fi
 
