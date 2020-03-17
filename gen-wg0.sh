@@ -162,7 +162,7 @@ for key in keys/*.public; do
             "${NL}Check the resulting config after in case you rely on $host."
     fi
     
-    s_public="$s_public s/\$public($host)/$contents/g $NL"
+    s_public="$s_public s,\$public($host),$contents,g $NL"
     
 done
 
@@ -170,7 +170,7 @@ done
 config="$(
     sed "
         $s_public
-        s/\$private($me)/$(cat me.private)/
+        s,\$private($me),$(cat me.private),
     " "confs/$me.conf"
 )"
 
