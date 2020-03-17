@@ -10,7 +10,7 @@ err() { echo "ERROR: $@" >&2; exit 1; }
 
 # just to distinguish from file IO
 #   maybe we'll add colours someday
-log() { echo "$@"; }
+log() { echo "$@" >&2; }
 
 NL=$'\n' # newline
 
