@@ -18,6 +18,15 @@ NL=$'\n' # newline
 
 ## SETUP & SANITY
 
+if [ ! -d confs ]; then
+    err "confs/ does not exist."
+fi
+if [ ! -d keys ]; then
+    mkdir keys
+    log "made keys/ directory."
+fi
+
+
 # who am I
 me="$1"
 ALLOWED_CHARS='[A-z0-9_\-]' # characters allowed in the host name
