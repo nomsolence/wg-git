@@ -197,4 +197,5 @@ fi
 # good job everyone
 echo "$config"
 
+log "OK."
 
