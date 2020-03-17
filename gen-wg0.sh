@@ -139,9 +139,10 @@ if [ -z "$pubkey" ]; then
     touch me.private
     chmod 600 me.private # owner-only read-write
     wg genkey | tee me.private | wg pubkey > "keys/$me.public"
+    log "Initialised me.private and keys/$me.public."
     ln -s "keys/$me.public" me.public
+    log "Linked me.public -> keys/$me.public."
     pubkey="$(cat me.public)"
-    log "Initialised me.private and me.public."
 fi
 
 # OK: me, me.private and me.public exist
