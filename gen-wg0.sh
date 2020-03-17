@@ -104,7 +104,7 @@ else
         if [ -n "$pubkey" ]; then
             echo "$pubkey" > "keys/$me.public"
             log "Regenerated keys/$me.public."
-            ln -s "keys/me.public" me.public # might fail, they can re-run
+            ln -s "keys/$me.public" me.public # might fail, they can re-run
             log "Linked me.public -> keys/$me.public."
         fi
         
