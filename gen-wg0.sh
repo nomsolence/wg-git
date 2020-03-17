@@ -96,21 +96,38 @@ else
         ln -s "keys/$me.public" me.public
         echo "Created missing softlink me.public -> keys/$me.public."
         
+    else
+        
+        # if we've got the private key, just regenerate the pubkey
+        #   this is automagic and that's fine
+        if [ -n "$pubkey" ]; then
+            echo "$pubkey" > "keys/$me.public"
+            echo "Regenerated keys/$me.public."
+            ln -s "keys/me.public" me.public # might fail, they can re-run
+            echo "Linked me.public -> keys/$me.public."
+        fi
+        
     fi
     
 fi
 
 
-# ok this is a good state:
-#   if both me.private and me.public exist:
-#       me.public is a softlink to keys/$me.public
+# OK this is a good state:
+#   if both me.private and me.public exist;
+#       then me.public is a softlink to keys/$me.public
 #       and is indeed the corresponding public key
 #   if neither exist; that's chill we'll make both
-#   just as long as me.public doesn't exist alone.
+#   if me.public was missing we made it again
 
+# the last case is we don't have either!
+#   so let's make both~
+if [ -z "$pubkey" ]; then
+    wg genkey | tee me.private | wg pubkey > "keys/$me.public"
+    ln -s "keys/me.public" me.public
+    pubkey="$(cat me.public)"
+    echo "Initialised me.private and me.public."
+fi
 
-#   let's start by making a private key if we need to;
-#       then go on to ensure the public key exists too.
 
 
 ## BUSINESS
