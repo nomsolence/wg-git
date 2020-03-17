@@ -33,8 +33,7 @@ fi
 c="confs/$me.conf"
 
 if [ ! -e "$c" ]; then
-    echo "No config for $me." >&2
-    exit 1
+    err "No config for $me."
 fi
 
 
