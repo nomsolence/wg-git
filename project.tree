@@ -7,8 +7,7 @@ Run gen-wg0.sh to get the wg0.conf to put in /etc/wireguard/ for your host
 File tree {
     
     .gitignore {
-        me.private
-        me.public
+        me*
     }
     
     confs/
