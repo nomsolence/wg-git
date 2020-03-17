@@ -8,6 +8,10 @@ set -o pipefail
 # error & exit
 err() { echo "ERROR: $@" >&2; exit 1; }
 
+# just to distinguish from file IO
+#   maybe we'll add colours someday
+log() { echo "$@"; }
+
 NL=$'\n' # newline
 
 
@@ -47,7 +51,7 @@ fi
 
 if [ ! -e me ]; then
     echo "$me" > me
-    echo "Initialised ./me."
+    log "Initialised ./me."
 fi
 
 
@@ -94,7 +98,7 @@ else
         fi
         
         ln -s "keys/$me.public" me.public
-        echo "Created missing softlink me.public -> keys/$me.public."
+        log "Created missing softlink me.public -> keys/$me.public."
         
     else
         
@@ -102,9 +106,9 @@ else
         #   this is automagic and that's fine
         if [ -n "$pubkey" ]; then
             echo "$pubkey" > "keys/$me.public"
-            echo "Regenerated keys/$me.public."
+            log "Regenerated keys/$me.public."
             ln -s "keys/me.public" me.public # might fail, they can re-run
-            echo "Linked me.public -> keys/$me.public."
+            log "Linked me.public -> keys/$me.public."
         fi
         
     fi
@@ -125,7 +129,7 @@ if [ -z "$pubkey" ]; then
     wg genkey | tee me.private | wg pubkey > "keys/$me.public"
     ln -s "keys/me.public" me.public
     pubkey="$(cat me.public)"
-    echo "Initialised me.private and me.public."
+    log "Initialised me.private and me.public."
 fi
 
 
