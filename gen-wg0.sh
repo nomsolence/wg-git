@@ -140,6 +140,46 @@ fi
 
 ## BUSINESS
 
+# build sed expressions to replace \$public($host) with the pubkey
+s_public=""
+for key in keys/*.public; do
+    
+    host="${key#keys/}"
+    host="${host%.public}"
+    
+    # we've got cycles for sanity
+    if [ -n "$(echo "$host" | tr -d "$ALLOWED_CHARS")" ]; then
+        err "$key has characters outside $ALLOWED_CHARS"
+    fi
+    
+    contents="$(cat "$key")"
+    if [ -z "$contents" ]; then
+        log "WARNING: $key exists, but it's empty." \
+            "${NL}Check the resulting config after in case you rely on $host."
+    fi
+    
+    s_public="$s_public s/\$public($host)/$contents/g $NL"
+    
+done
 
+# create the config
+config="$(
+    sed "
+        $s_public
+        s/\$private($me)/$(cat me.private)/
+    " "confs/$me.conf"
+)"
+
+# make sure the config isn't missing any keys
+#   || true is necessary because set -o pipefail
+missing="$(echo "$config" | grep -Eno '\$[^ ]+' || true)"
+if [ -n "$missing" ]; then
+    err "Couldn't load some keys:" \
+        "$NL$(echo "$missing" | sed -E 's/([0-9]+):(.*)/    \2 on line \1/')"
+fi
+
+
+# good job everyone
+echo "$config"
 
 
