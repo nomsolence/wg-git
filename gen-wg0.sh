@@ -128,7 +128,7 @@ fi
 #   so let's make both~
 if [ -z "$pubkey" ]; then
     wg genkey | tee me.private | wg pubkey > "keys/$me.public"
-    ln -s "keys/me.public" me.public
+    ln -s "keys/$me.public" me.public
     pubkey="$(cat me.public)"
     log "Initialised me.private and me.public."
 fi
