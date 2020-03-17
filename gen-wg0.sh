@@ -136,11 +136,9 @@ fi
 # the last case is we don't have either!
 #   so let's make both~
 if [ -z "$pubkey" ]; then
-    umask="$(umask)"
-    umask 700
-    wg genkey > me.private
-    umask "$umask"
-    cat me.private | wg pubkey > "keys/$me.public"
+    touch me.private
+    chmod 600 me.private # owner-only read-write
+    wg genkey | tee me.private | wg pubkey > "keys/$me.public"
     ln -s "keys/$me.public" me.public
     pubkey="$(cat me.public)"
     log "Initialised me.private and me.public."
