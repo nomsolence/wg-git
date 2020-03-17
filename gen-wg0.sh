@@ -131,6 +131,12 @@ if [ -z "$pubkey" ]; then
     log "Initialised me.private and me.public."
 fi
 
+# OK: me, me.private and me.public exist
+#   let's just spend some cycles for fun
+#   (program will exit if these fail; but they shouldn't.)
+#   TODO: actually test the SANITY code.
+[ "$(readlink me.public)" = "keys/$(cat me).public" ]
+[ "$(wg pubkey < me.private)" = "$(cat me.public)" ]
 
 
 ## BUSINESS
