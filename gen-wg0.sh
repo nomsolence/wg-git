@@ -50,7 +50,9 @@ if [ ! -e me ]; then
     echo "Initialised ./me."
 fi
 
+
 # set $pubkey variable if we can by reading me.private
+unset pubkey # in case of environment inheritance
 if [ -e me.private ]; then
     pubkey="$(wg pubkey < me.private)"
 fi
