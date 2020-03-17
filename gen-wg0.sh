@@ -5,11 +5,15 @@
 set -e
 set -o pipefail
 
+reset="$(tput sgr0)"
+red="$(tput setaf 1)"
+blue="$(tput setaf 6)"
+
 # error & exit
-err() { echo "ERROR: $@" >&2; exit 1; }
+err() { echo "${red}ERROR: $@${reset}" >&2; exit 1; }
 
 # log to stderr, stdout is reserved for the config output
-log() { echo "$@" >&2; }
+log() { echo "${blue}$@${reset}" >&2; }
 
 NL=$'\n' # newline
 
