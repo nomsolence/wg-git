@@ -59,11 +59,15 @@ if [ -e me.private ]; then
 fi
 
 # don't generate a private key until we figure out the pubkey situation
-if [ -e me.public ]; then
+if [ -L me.public ]; then
     
     ln="$(readlink me.public)"
     if [ "$ln" != "keys/$me.public" ]; then
         err "me.public exists, but isn't a softlink to keys/$me.public."
+    fi
+    
+    if [ ! -e me.public ]; then
+        err "me.public points to a non-existant file ($ln)."
     fi
     
     # $pubkey was generated from me.private (if it exists)
