@@ -1,5 +1,6 @@
 #!/bin/sh
 
+
 # exit if status != 0
 set -e
 set -o pipefail
@@ -9,6 +10,9 @@ err() { echo "ERROR: $@" >&2; exit 1; }
 
 NL=$'\n' # newline
 
+
+
+## SETUP & SANITY
 
 # who am I
 me="$1"
@@ -28,7 +32,6 @@ if [ ! -e "$c" ]; then
     echo "No config for $me." >&2
     exit 1
 fi
-
 
 
 # check that all the state matches
@@ -108,9 +111,7 @@ fi
 #       then go on to ensure the public key exists too.
 
 
-if [ ! -e me.private ]; then
-    :
-fi
+## BUSINESS
 
 
 
